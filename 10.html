@@ -7,18 +7,18 @@
 <style>
 :root{
   --ink:#2b2b2b; --line:#e5ddf5; --accent:#7c56d6; --accent2:#b79ae8;
-  --paper:#ffffff; --bg:#efeafb; --soft:#f3eefc; --ok:#2bb673; --no:#e2574c;
+  --paper:#ffffff; --bg:#efeafb; --soft:#f3eefc; --ok:#2bb673; --no:#e2574c; --sub:#f5a01e; --subd:#cc7d10;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 body{margin:0;background:var(--bg);font-family:'Noto Sans KR',sans-serif;color:var(--ink);padding:16px 10px 60px;
   background-image:linear-gradient(#e6ddf7 1px,transparent 1px),linear-gradient(90deg,#e6ddf7 1px,transparent 1px);
   background-size:26px 26px;background-attachment:fixed;}
 .sheet{max-width:640px;margin:0 auto;background:var(--paper);border:1px solid #e2d8f5;border-radius:18px;box-shadow:0 8px 28px rgba(124,86,214,.12);overflow:hidden;position:relative;}
-.topbar{display:flex;justify-content:space-between;align-items:center;padding:9px 16px;border-bottom:1px solid #f0eafb;}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:9px 16px;border-bottom:1px solid #f0eafb;background:#fff9e6;}
 .topbar-left{display:flex;align-items:center;gap:10px;}
 .toc-btn{border:1.5px solid var(--accent);background:#fff;color:var(--accent);border-radius:14px;padding:5px 12px;font-size:13px;font-weight:700;cursor:pointer;transition:.15s;}
 .toc-btn:hover{background:var(--accent);color:#fff;}
-.pagenum{font-size:13px;font-weight:700;color:var(--accent);}
+.pagenum{font-size:13px;font-weight:700;color:var(--subd);}
 .who{display:flex;align-items:center;gap:7px;font-size:12px;color:#999;}
 .who .student-name{font-weight:700;color:var(--accent);font-size:14px;}
 .who button{border:1px solid #ddd;background:#fff;border-radius:12px;padding:3px 9px;font-size:11px;cursor:pointer;color:#777;}
@@ -26,16 +26,16 @@ body{margin:0;background:var(--bg);font-family:'Noto Sans KR',sans-serif;color:v
 .hero h1{margin:0;font-size:22px;color:var(--accent);}
 .q-guide{color:#8a7fb0;font-size:14px;margin:4px 0 0;}
 .pic-wrap{display:flex;justify-content:center;padding:12px 16px 6px;}
-.pic{width:min(320px,80vw);height:min(320px,80vw);border:3px solid var(--accent2);border-radius:20px;object-fit:contain;background:#fff;padding:8px;}
+.pic{width:min(320px,80vw);height:min(320px,80vw);border:3px solid #f5cd8a;border-radius:20px;object-fit:contain;background:#fff;padding:8px;}
 .answer-img img{width:min(300px,74vw);border:3px solid var(--ok);border-radius:18px;padding:6px;background:#fff;}
-.answer-label{display:none;text-align:center;font-size:34px;font-weight:900;color:var(--ok);margin:8px 0 2px;letter-spacing:2px;}
+.answer-label{display:none;text-align:center;font-size:56px;font-weight:900;color:#fff;background:var(--sub);margin:10px auto 6px;padding:14px 10px;border-radius:18px;max-width:300px;letter-spacing:4px;box-shadow:0 5px 0 var(--subd);}
 .controls{display:flex;flex-direction:column;align-items:center;gap:10px;padding:6px 16px 22px;}
 .big-btn{border:none;border-radius:26px;padding:14px 34px;font-size:18px;font-weight:800;cursor:pointer;font-family:inherit;}
 .btn-mic{background:var(--accent);color:#fff;box-shadow:0 5px 0 #5f3fb0;}
 .btn-mic:active{transform:translateY(2px);box-shadow:0 3px 0 #5f3fb0;}
 .btn-mic.rec{background:var(--no);box-shadow:0 5px 0 #b23b32;}
 .result-mark{font-size:80px;font-weight:900;height:96px;display:flex;align-items:center;justify-content:center;transition:.2s;}
-.result-mark.o{color:var(--ok);} .result-mark.x{color:var(--no);}
+.result-mark.o{color:var(--sub);} .result-mark.x{color:var(--no);}
 @keyframes shakeX{0%,100%{transform:translateX(0) rotate(0)}15%{transform:translateX(-16px) rotate(-7deg)}30%{transform:translateX(14px) rotate(6deg)}45%{transform:translateX(-12px) rotate(-5deg)}60%{transform:translateX(9px) rotate(4deg)}75%{transform:translateX(-5px) rotate(-2deg)}}
 .result-mark.shake{animation:shakeX .55s;}
 .cheer{min-height:22px;text-align:center;font-size:15px;font-weight:700;color:var(--accent);}
@@ -130,7 +130,7 @@ function showMark(type){ const m=document.getElementById('mark'); m.textContent=
   m.classList.remove('shake'); void m.offsetWidth; m.className='result-mark '+type;
   if(type==='x'){ void m.offsetWidth; m.classList.add('shake'); }
   setTimeout(function(){ if(!solved){ m.textContent=''; m.classList.remove('shake'); } },1400); }
-function showLabeled(){ if(ANSWER.labeledImg){ var ai=document.getElementById('answerImg'); ai.style.display='block'; ai.innerHTML='<img src="data:image/png;base64,'+ANSWER.labeledImg+'" alt="정답">'; document.getElementById('answerLabel').style.display='none'; } else { document.getElementById('answerLabel').style.display='block'; document.getElementById('answerLabel').textContent=ANSWER.word; } }
+function showLabeled(){ var al=document.getElementById('answerLabel'); al.style.display='block'; al.textContent=ANSWER.word; var ai=document.getElementById('answerImg'); if(ai) ai.style.display='none'; }
 function revealAnswer(){ showLabeled(); document.getElementById('cheer').textContent='정답은 「'+ANSWER.word+'」이에요!'; speak(ANSWER.word); }
 function onResult(alts){
   document.getElementById('heard').textContent='들린 말: '+alts.slice(0,3).join(', ');
