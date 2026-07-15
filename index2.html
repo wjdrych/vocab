@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>어휘 목차 (인성 파트)</title>
+<style>
+  :root{
+    --paper:#fdf0f6; --ink:#3a2b33; --muted:#c98aa8; --line:#f5dde9;
+    --grid:#fce6f0; --accent:#ef7bab; --accent2:#f7d84a; --card:#ffffff;
+    --chip:#fcf4f8; --chip-ink:#8a4a68; --quiz:#fff8dd; --quiz-ink:#a8860f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
+    background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(var(--grid) 1px,transparent 1px);background-size:22px 22px}
+  .wrap{max-width:760px;margin:0 auto;padding:0 16px 60px}
+  header{padding:34px 4px 18px}
+  .eyebrow{font-size:13px;font-weight:700;letter-spacing:.14em;color:var(--accent);text-transform:uppercase}
+  .title{font-size:34px;font-weight:800;letter-spacing:-.02em;margin-top:6px}
+  .title b{color:var(--accent)}
+  .parttag{color:var(--accent);font-size:20px;font-weight:700}
+  .part{color:var(--muted);font-size:15px;margin-top:2px}
+  .chips-head{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600}
+  .stat b{color:var(--accent)}
+  .toolbar{position:sticky;top:0;z-index:20;background:rgba(253,240,246,.9);backdrop-filter:blur(8px);
+    padding:12px 4px;margin-bottom:6px;display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--line)}
+  .search{flex:1;display:flex;align-items:center;gap:8px;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:9px 13px;transition:.15s}
+  .search:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(239,123,171,.16)}
+  .search input{border:0;outline:0;font-size:15px;width:100%;background:transparent;color:var(--ink);font-family:inherit}
+  .search svg{flex-shrink:0;color:var(--muted)}
+  .qtoggle{border:1.5px solid var(--line);background:var(--card);border-radius:12px;padding:9px 13px;font-size:14px;font-weight:700;color:var(--muted);cursor:pointer;font-family:inherit;white-space:nowrap;transition:.15s}
+  .qtoggle.on{background:var(--quiz);border-color:var(--accent2);color:var(--quiz-ink)}
+  .ch{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:12px;overflow:hidden;transition:.15s}
+  .ch[open]{box-shadow:0 6px 24px rgba(239,123,171,.12);border-color:#f3cfe0}
+  summary{list-style:none;cursor:pointer;padding:16px 18px;display:flex;align-items:center;gap:13px;transition:.12s;user-select:none}
+  summary::-webkit-details-marker{display:none}
+  summary:hover{background:#fff7fb}
+  .cnum{flex-shrink:0;border-radius:10px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;padding:7px 12px;gap:2px;white-space:nowrap}.cnum b{font-weight:700;font-size:13px;opacity:.92}
+  .ch[open] summary .cnum{background:var(--accent)}
+  .cmeta{flex:1;min-width:0}
+  .cname{font-weight:800;font-size:16px;letter-spacing:-.01em}
+  .csub{font-size:12.5px;color:var(--muted);margin-top:1px}
+  .cright{display:flex;align-items:center;gap:9px;flex-shrink:0}
+  .qbadge{background:var(--quiz);color:var(--quiz-ink);border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:700;white-space:nowrap}
+  .chev{color:#eaa9c6;transition:transform .2s}
+  .ch[open] summary .chev{transform:rotate(180deg)}
+  .cbody{padding:2px 16px 16px}
+  .grp{margin-top:10px}
+  .grp-h{font-size:12.5px;font-weight:700;color:var(--accent);display:flex;align-items:center;gap:7px;margin:8px 2px 8px}
+  .grp-h .ln{flex:1;height:1px;background:var(--line)}
+  .chipwrap{display:flex;flex-wrap:wrap;gap:6px}
+  .wchip{display:inline-flex;align-items:center;gap:5px;background:var(--chip);color:var(--chip-ink);border:1px solid transparent;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;text-decoration:none;transition:.12s}
+  .wchip .pg{font-size:10.5px;color:var(--muted);font-weight:600}
+  .wchip:hover{background:#fff;border-color:var(--accent);color:var(--accent);transform:translateY(-1px);box-shadow:0 3px 10px rgba(239,123,171,.16)}
+  .wchip.quiz{background:var(--quiz);color:var(--quiz-ink)}
+  .wchip.quiz:hover{border-color:var(--accent2);color:var(--quiz-ink)}
+  .wchip.quiz .pg{display:none}
+  .noresult{text-align:center;color:var(--muted);padding:40px;display:none;font-size:15px}
+  footer{text-align:center;color:var(--muted);font-size:12.5px;margin-top:26px}
+  footer .heart{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">K-STEP 신속 한국어</div>
+    <h1 class="title">어휘 <b>목차</b> <span class="parttag">(인성 파트)</span></h1>
+    <p class="part">(어휘 파트 · 낱말을 눌러 바로 학습해요)</p>
+    <div class="chips-head">
+      <span class="stat">총 <b>228</b>쪽</span>
+      <span class="stat">📚 <b>12</b>단원</span>
+      <span class="stat">🧩 퀴즈 <b>12</b>개</span>
+    </div>
+  </header>
+  <div class="toolbar">
+    <label class="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="q" type="text" placeholder="낱말·단원 검색 (예: 김치, 교실)">
+    </label>
+    <button class="qtoggle" id="qonly" aria-pressed="false">🧩 퀴즈만</button>
+  </div>
+  <div id="list">
+    <details class="ch" open>
+      <summary>
+        <span class="cnum">1<b>챕터</b></span>
+        <span class="cmeta"><span class="csub">1–16쪽</span></span>
+        <span class="cright"><span class="qbadge">🧩 1</span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
+      </summary>
+      <div class="cbody">
+        <div class="grp">
+          <div class="chipwrap">
+            <a class="wchip" href="p1.html?ch=1">인사하다 <span class="pg">1</span></a><a class="wchip" href="p2.html?ch=1">인사말 <span class="pg">2</span></a><a class="wchip" href="p3.html?ch=1">안녕 <span class="pg">3</span></a><a class="wchip" href="p4.html?ch=1">이름 <span class="pg">4</span></a><a class="wchip" href="p5.html?ch=1">나라 <span class="pg">5</span></a><a class="wchip" href="p6.html?ch=1">사람 <span class="pg">6</span></a><a class="wchip" href="p7.html?ch=1">방글라데시 <span class="pg">7</span></a><a class="wchip" href="p8.html?ch=1">대한민국 <span class="pg">8</span></a><a class="wchip" href="p9.html?ch=1">중국 <span class="pg">9</span></a><a class="wchip" href="p10.html?ch=1">미국 <span class="pg">10</span></a><a class="wchip" href="p11.html?ch=1">일본 <span class="pg">11</span></a><a class="wchip" href="p12.html?ch=1">몽골 <span class="pg">12</span></a><a class="wchip" href="p13.html?ch=1">필리핀 <span class="pg">13</span></a><a class="wchip" href="p14.html?ch=1">베트남 <span class="pg">14</span></a><a class="wchip" href="p15.html?ch=1">네팔 <span class="pg">15</span></a><a class="wchip" href="p16.html?ch=1">캄보디아 <span class="pg">16</span></a><a class="wchip quiz" href="1q.html?ch=1">🧩 1Q</a>
+          </div>
+        </div>
+      </div>
+    </details>
+    <details class="ch">
+      <summary>
+        <span class="cnum">2<b>챕터</b></span>
+        <span class="cmeta"><span class="csub">17–45쪽</span></span>
+        <span class="cright"><span class="qbadge">🧩 2</span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
+      </summary>
+      <div class="cbody">
+        <div class="grp">
+          <div class="chipwrap">
+            <a class="wchip" href="p17.html?ch=2">친구 <span class="pg">17</span></a><a class="wchip" href="p18.html?ch=2">도와줘 <span class="pg">18</span></a><a class="wchip" href="p19.html?ch=2">고마워 <span class="pg">19</span></a><a class="wchip" href="p20.html?ch=2">사과해 <span class="pg">20</span></a><a class="wchip" href="p21.html?ch=2">미안해 <span class="pg">21</span></a><a class="wchip" href="p22.html?ch=2">늦다 <span class="pg">22</span></a><a class="wchip" href="p23.html?ch=2">부딪히다 <span class="pg">23</span></a><a class="wchip" href="p24.html?ch=2">책 <span class="pg">24</span></a><a class="wchip" href="p25.html?ch=2">연필 <span class="pg">25</span></a><a class="wchip" href="p26.html?ch=2">샤프 <span class="pg">26</span></a><a class="wchip" href="p27.html?ch=2">지우개 <span class="pg">27</span></a><a class="wchip" href="p28.html?ch=2">볼펜 <span class="pg">28</span></a><a class="wchip" href="p29.html?ch=2">노트 <span class="pg">29</span></a><a class="wchip" href="p30.html?ch=2">공책 <span class="pg">30</span></a><a class="wchip" href="p31.html?ch=2">자 <span class="pg">31</span></a><a class="wchip" href="p32.html?ch=2">클립 <span class="pg">32</span></a><a class="wchip" href="p33.html?ch=2">스테이플러 <span class="pg">33</span></a><a class="wchip" href="p34.html?ch=2">집게 <span class="pg">34</span></a><a class="wchip" href="p35.html?ch=2">필통 <span class="pg">35</span></a><a class="wchip" href="p36.html?ch=2">편의점 <span class="pg">36</span></a><a class="wchip" href="p37.html?ch=2">김밥 <span class="pg">37</span></a><a class="wchip" href="p38.html?ch=2">컵라면 <span class="pg">38</span></a><a class="wchip" href="p39.html?ch=2">도시락 <span class="pg">39</span></a><a class="wchip" href="p40.html?ch=2">샌드위치 <span class="pg">40</span></a><a class="wchip" href="p41.html?ch=2">우유 <span class="pg">41</span></a><a class="wchip" href="p42.html?ch=2">콜라 <span class="pg">42</span></a><a class="wchip" href="p43.html?ch=2">과자 <span class="pg">43</span></a><a class="wchip" href="p44.html?ch=2">아이스크림 <span class="pg">44</span></a><a class="wchip" href="p45.html?ch=2">초콜릿 <span class="pg">45</span></a><a class="wchip quiz" href="2q.html?ch=2">🧩 2Q</a><a class="wchip quiz" href="3q.html?ch=2">🧩 3Q</a>
+          </div>
+        </div>
+      </div>
+    </details>
+    <details class="ch">
+      <summary>
+        <span class="cnum">3<b>챕터</b></span>
+        <span class="cmeta"><span class="csub">46–54쪽</span></span>
+        <span class="cright"><span class="qbadge">🧩 1</span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
+      </summary>
+      <div class="cbody">
+        <div class="grp">
+          <div class="chipwrap">
+            <a class="wchip" href="p46.html?ch=3">칼 <span class="pg">46</span></a><a class="wchip" href="p47.html?ch=3">도마 <span class="pg">47</span></a><a class="wchip" href="p48.html?ch=3">숟가락 <span class="pg">48</span></a><a class="wchip" href="p49.html?ch=3">젓가락 <span class="pg">49</span></a><a class="wchip" href="p50.html?ch=3">그릇 <span class="pg">50</span></a><a class="wchip" href="p51.html?ch=3">싱크대 <span class="pg">51</span></a><a class="wchip" href="p52.html?ch=3">오븐 <span class="pg">52</span></a><a class="wchip" href="p53.html?ch=3">냉장고 <span class="pg">53</span></a><a class="wchip" href="p54.html?ch=3">설거지 <span class="pg">54</span></a><a class="wchip quiz" href="4q.html?ch=3">🧩 4Q</a>
+          </div>
+        </div>
+      </div>
+    </details>
+    <details class="ch">
+      <summary>
+        <span class="cnum">4<b>챕터</b></span>
+        <span class="cmeta"><span class="csub">55–79쪽</span></span>
+        <span class="cright"><span class="qbadge">🧩 1</span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
+      </summary>
+      <div class="cbody">
+        <div class="grp">
+          <div class="chipwrap">
+            <a class="wchip" href="p55.html?ch=4">늦다 <span class="pg">55</span></a><a class="wchip" href="p56.html?ch=4">느리다 <span class="pg">56</span></a><a class="wchip" href="p57.html?ch=4">빠르다 <span class="pg">57</span></a><a class="wchip" href="p58.html?ch=4">아프다 <span class="pg">58</span></a><a class="wchip" href="p59.html?ch=4">전화해요 <span class="pg">59</span></a><a class="wchip" href="p60.html?ch=4">몸 <span class="pg">60</span></a><a class="wchip" href="p61.html?ch=4">머리 <span class="pg">61</span></a><a class="wchip" href="p62.html?ch=4">다리 <span class="pg">62</span></a><a class="wchip" href="p63.html?ch=4">허리 <span class="pg">63</span></a><a class="wchip" href="p64.html?ch=4">목 <span class="pg">64</span></a><a class="wchip" href="p65.html?ch=4">얼굴 <span class="pg">65</span></a><a class="wchip" href="p66.html?ch=4">손 <span class="pg">66</span></a><a class="wchip" href="p67.html?ch=4">발 <span class="pg">67</span></a><a class="wchip" href="p68.html?ch=4">팔 <span class="pg">68</span></a><a class="wchip" href="p69.html?ch=4">어깨 <span class="pg">69</span></a><a class="wchip" href="p70.html?ch=4">와이파이 <span class="pg">70</span></a><a class="wchip" href="p71.html?ch=4">배터리 <span class="pg">71</span></a><a class="wchip" href="p72.html?ch=4">카메라 <span class="pg">72</span></a><a class="wchip" href="p73.html?ch=4">블루투스 <span class="pg">73</span></a><a class="wchip" href="p74.html?ch=4">알림 <span class="pg">74</span></a><a class="wchip" href="p75.html?ch=4">어플 <span class="pg">75</span></a><a class="wchip" href="p76.html?ch=4">터치 <span class="pg">76</span></a><a class="wchip" href="p77.html?ch=4">지문 <span class="pg">77</span></a><a class="wchip" href="p78.html?ch=4">비밀번호 <span class="pg">78</span></a><a class="wchip" href="p79.html?ch=4">프로그램 <span class="pg">79</span></a><a class="wchip quiz" href="5q.html?ch=4">🧩 5Q</a>
+          </div>
+        </div>
+      </div>
+    </details>
+    <details class="ch">
+      <summary>
+        <span class="cnum">5<b>챕터</b></span>
+        <span class="cmeta"><span class="csub">80–99쪽</span></span>
+        <span class="cright"><span class="qbadge">🧩 1</span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
+      </summary>
+      <div class="cbody">
+        <div class="grp">
+          <div class="chipwrap">
+            <a class="wchip" href="p80.html?ch=5">외출해요 <span class="pg">80</span></a><a class="wchip" href="p81.html?ch=5">식사해요 <span class="pg">81</span></a><a class="wchip" href="p82.html?ch=5">밥먹다 <span class="pg">82</span></a><a class="wchip" href="p83.html?ch=5">손 씻어요 <span class="pg">83</span></a><a class="wchip" href="p84.html?ch=5">발 씻어요 <span class="pg">84</span></a><a class="wchip" href="p85.html?ch=5">양치해요 <span class="pg">85</span></a><a class="wchip" href="p86.html?ch=5">깨끗해요 <span class="pg">86</span></a><a class="wchip" href="p87.html?ch=5">더럽다 <span class="pg">87</span></a><a class="wchip" href="p88.html?ch=5">전 <span class="pg">88</span></a><a class="wchip" href="p89.html?ch=5">후 <span class="pg">89</span></a><a class="wchip" href="p90.html?ch=5">일 분 <span class="pg">90</span></a><a class="wchip" href="p91.html?ch=5">이 분 <span class="pg">91</span></a><a class="wchip" href="p92.html?ch=5">삼 분 <span class="pg">92</span></a><a class="wchip" href="p93.html?ch=5">사 분 <span class="pg">93</span></a><a class="wchip" href="p94.html?ch=5">오 분 <span class="pg">94</span></a><a class="wchip" href="p95.html?ch=5">육 분 <span class="pg">95</span></a><a class="wchip" href="p96.html?ch=5">칠 분 <span class="pg">96</span></a><a class="wchip" href="p97.html?ch=5">팔 분 <span class="pg">97</span></a><a class="wchip" href="p98.html?ch=5">구 분 <span class="pg">98</span></a><a class="wchip" href="p99.html?ch=5">십 분 <span class="pg">99</span></a><a class="wchip quiz" href="6q.html?ch=5">🧩 6Q</a>
+          </div>
+        </div>
+      </div>
+    </details>
+    <details class="ch">
+      <summary>
+        <span class="cnum">6<b>챕터</b></span>
+        <span class="cmeta"><span class="csub">100–121쪽</span></span>
+        <span class="cright"><span class="qbadge">🧩 1</span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
+      </summary>
+      <div class="cbody">
+        <div class="grp">
+          <div class="chipwrap">
+            <a class="wchip" href="p100.html?ch=6">읽다 <span class="pg">100</span></a><a class="wchip" href="p101.html?ch=6">책 <span class="pg">101</span></a><a class="wchip" href="p102.html?ch=6">뛰다 <span class="pg">102</span></a><a class="wchip" href="p103.html?ch=6">복도 <span class="pg">103</span></a><a class="wchip" href="p104.html?ch=6">운동장 <span class="pg">104</span></a><a class="wchip" href="p105.html?ch=6">넘어지다 <span class="pg">105</span></a><a class="wchip" href="p106.html?ch=6">다치다 <span class="pg">106</span></a><a class="wchip" href="p107.html?ch=6">위험하다 <span class="pg">107</span></a><a class="wchip" href="p108.html?ch=6">급식실 <span class="pg">108</span></a><a class="wchip" href="p109.html?ch=6">도서실 <span class="pg">109</span></a><a class="wchip" href="p110.html?ch=6">교실 <span class="pg">110</span></a><a class="wchip" href="p111.html?ch=6">식당 <span class="pg">111</span></a><a class="wchip" href="p112.html?ch=6">음식 <span class="pg">112</span></a><a class="wchip" href="p113.html?ch=6">남기다 <span class="pg">113</span></a><a class="wchip" href="p114.html?ch=6">조용하다 <span class="pg">114</span></a><a class="wchip" href="p115.html?ch=6">시끄럽다 <span class="pg">115</span></a><a class="wchip" href="p116.html?ch=6">시계 <span class="pg">116</span></a><a class="wchip" href="p117.html?ch=6">시간 <span class="pg">117</span></a><a class="wchip" href="p118.html?ch=6">달력 <span class="pg">118</span></a><a class="wchip" href="p119.html?ch=6">주 <span class="pg">119</span></a><a class="wchip" href="p120.html?ch=6">월 <span class="pg">120</span></a><a class="wchip" href="p121.html?ch=6">연 <span class="pg">121</span></a><a class="wchip quiz" href="7q.html?ch=6">🧩 7Q</a>
+          </div>
+        </div>
+      </div>
+    </details>
+    <details class="ch">
+      <summary>
+        <span class="cnum">7<b>챕터</b></span>
+        <span class="cmeta"><span class="csub">122–128쪽</span></span>
+        <span class="cright"><span class="qbadge">🧩 1</span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
+      </summary>
+      <div class="cbody">
+        <div class="grp">
+          <div class="chipwrap">
+            <a class="wchip" href="p122.html?ch=7">침대 <span class="pg">122</span></a><a class="wchip" href="p123.html?ch=7">이불 <span class="pg">123</span></a><a class="wchip" href="p124.html?ch=7">베개 <span class="pg">124</span></a><a class="wchip" href="p125.html?ch=7">꿈 <span class="pg">125</span></a><a class="wchip" href="p126.html?ch=7">낮잠 <span class="pg">126</span></a><a class="wchip" href="p127.html?ch=7">칫솔 <span class="pg">127</span></a><a class="wchip" href="p128.html?ch=7">치약 <span class="pg">128</span></a><a class="wchip quiz" href="8q.html?ch=7">🧩 8Q</a>
+          </div>
+        </div>
+      </div>
+    </details>
+    <details class="ch">
+      <summary>
+        <span class="cnum">8<b>챕터</b></span>
+        <span class="cmeta"><span class="csub">129–154쪽</span></span>
+        <span class="cright">
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
+      </summary>
+      <div class="cbody">
+        <div class="grp">
+          <div class="chipwrap">
+            <a class="wchip" href="p129.html?ch=8">한 살 <span class="pg">129</span></a><a class="wchip" href="p130.html?ch=8">두 살 <span class="pg">130</span></a><a class="wchip" href="p131.html?ch=8">세 살 <span class="pg">131</span></a><a class="wchip" href="p132.html?ch=8">네 살 <span class="pg">132</span></a><a class="wchip" href="p133.html?ch=8">다섯 살 <span class="pg">133</span></a><a class="wchip" href="p134.html?ch=8">여섯 살 <span class="pg">134</span></a><a class="wchip" href="p135.html?ch=8">일곱 살 <span class="pg">135</span></a><a class="wchip" href="p136.html?ch=8">여덟 살 <span class="pg">136</span></a><a class="wchip" href="p137.html?ch=8">아홉 살 <span class="pg">137</span></a><a class="wchip" href="p138.html?ch=8">열 살 <span class="pg">138</span></a><a class="wchip" href="p139.html?ch=8">스무 살 <span class="pg">139</span></a><a class="wchip" href="p140.html?ch=8">서른 살 <span class="pg">140</span></a><a class="wchip" href="p141.html?ch=8">마흔 살 <span class="pg">141</span></a><a class="wchip" href="p142.html?ch=8">쉰 살 <span class="pg">142</span></a><a class="wchip" href="p143.html?ch=8">예순 살 <span class="pg">143</span></a><a class="wchip" href="p144.html?ch=8">일흔 살 <span class="pg">144</span></a><a class="wchip" href="p145.html?ch=8">여든 살 <span class="pg">145</span></a><a class="wchip" href="p146.html?ch=8">아흔 살 <span class="pg">146</span></a><a class="wchip" href="p147.html?ch=8">백 살 <span class="pg">147</span></a><a class="wchip" href="p148.html?ch=8">뉴스 <span class="pg">148</span></a><a class="wchip" href="p149.html?ch=8">요리 <span class="pg">149</span></a><a class="wchip" href="p150.html?ch=8">책 <span class="pg">150</span></a><a class="wchip" href="p151.html?ch=8">공부 <span class="pg">151</span></a><a class="wchip" href="p152.html?ch=8">신문 <span class="pg">152</span></a><a class="wchip" href="p153.html?ch=8">인터넷 <span class="pg">153</span></a><a class="wchip" href="p154.html?ch=8">카카오톡 <span class="pg">154</span></a>
+          </div>
+        </div>
+      </div>
+    </details>
+    <details class="ch">
+      <summary>
+        <span class="cnum">9<b>챕터</b></span>
+        <span class="cmeta"><span class="csub">155–176쪽</span></span>
+        <span class="cright"><span class="qbadge">🧩 1</span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
+      </summary>
+      <div class="cbody">
+        <div class="grp">
+          <div class="chipwrap">
+            <a class="wchip" href="p155.html?ch=9">배려해 <span class="pg">155</span></a><a class="wchip" href="p156.html?ch=9">의리 <span class="pg">156</span></a><a class="wchip" href="p157.html?ch=9">대화해 <span class="pg">157</span></a><a class="wchip" href="p158.html?ch=9">함께 놀자 <span class="pg">158</span></a><a class="wchip" href="p159.html?ch=9">선물 <span class="pg">159</span></a><a class="wchip" href="p160.html?ch=9">약속해 <span class="pg">160</span></a><a class="wchip" href="p161.html?ch=9">미안해 <span class="pg">161</span></a><a class="wchip" href="p162.html?ch=9">사과해 <span class="pg">162</span></a><a class="wchip" href="p163.html?ch=9">이해해 <span class="pg">163</span></a><a class="wchip" href="p164.html?ch=9">도와줘 <span class="pg">164</span></a><a class="wchip" href="p165.html?ch=9">고마워 <span class="pg">165</span></a><a class="wchip" href="p166.html?ch=9">함께해 <span class="pg">166</span></a><a class="wchip" href="p167.html?ch=9">교실 <span class="pg">167</span></a><a class="wchip" href="p168.html?ch=9">도서관 <span class="pg">168</span></a><a class="wchip" href="p169.html?ch=9">운동장 <span class="pg">169</span></a><a class="wchip" href="p170.html?ch=9">체육관 <span class="pg">170</span></a><a class="wchip" href="p171.html?ch=9">급식실 <span class="pg">171</span></a><a class="wchip" href="p172.html?ch=9">과학실 <span class="pg">172</span></a><a class="wchip" href="p173.html?ch=9">음악실 <span class="pg">173</span></a><a class="wchip" href="p174.html?ch=9">보건실 <span class="pg">174</span></a><a class="wchip" href="p175.html?ch=9">교무실 <span class="pg">175</span></a><a class="wchip" href="p176.html?ch=9">행정실 <span class="pg">176</span></a><a class="wchip quiz" href="10q.html?ch=9">🧩 10Q</a>
+          </div>
+        </div>
+      </div>
+    </details>
+    <details class="ch">
+      <summary>
+        <span class="cnum">10<b>챕터</b></span>
+        <span class="cmeta"><span class="csub">177–200쪽</span></span>
+        <span class="cright"><span class="qbadge">🧩 1</span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
+      </summary>
+      <div class="cbody">
+        <div class="grp">
+          <div class="chipwrap">
+            <a class="wchip" href="p177.html?ch=10">티셔츠 <span class="pg">177</span></a><a class="wchip" href="p178.html?ch=10">와이셔츠 <span class="pg">178</span></a><a class="wchip" href="p179.html?ch=10">잠바 <span class="pg">179</span></a><a class="wchip" href="p180.html?ch=10">목도리 <span class="pg">180</span></a><a class="wchip" href="p181.html?ch=10">가방 <span class="pg">181</span></a><a class="wchip" href="p182.html?ch=10">신발 <span class="pg">182</span></a><a class="wchip" href="p183.html?ch=10">안경 <span class="pg">183</span></a><a class="wchip" href="p184.html?ch=10">장갑 <span class="pg">184</span></a><a class="wchip" href="p185.html?ch=10">바지 <span class="pg">185</span></a><a class="wchip" href="p186.html?ch=10">셔츠 <span class="pg">186</span></a><a class="wchip" href="p187.html?ch=10">우산 <span class="pg">187</span></a><a class="wchip" href="p188.html?ch=10">치마 <span class="pg">188</span></a><a class="wchip" href="p189.html?ch=10">재킷 <span class="pg">189</span></a><a class="wchip" href="p190.html?ch=10">코트 <span class="pg">190</span></a><a class="wchip" href="p191.html?ch=10">원피스 <span class="pg">191</span></a><a class="wchip" href="p192.html?ch=10">청바지 <span class="pg">192</span></a><a class="wchip" href="p193.html?ch=10">잠옷 <span class="pg">193</span></a><a class="wchip" href="p194.html?ch=10">히잡 <span class="pg">194</span></a><a class="wchip" href="p195.html?ch=10">모자 <span class="pg">195</span></a><a class="wchip" href="p196.html?ch=10">양말 <span class="pg">196</span></a><a class="wchip" href="p197.html?ch=10">벨트 <span class="pg">197</span></a><a class="wchip" href="p198.html?ch=10">스카프 <span class="pg">198</span></a><a class="wchip" href="p199.html?ch=10">장갑 <span class="pg">199</span></a><a class="wchip" href="p200.html?ch=10">넥타이 <span class="pg">200</span></a><a class="wchip quiz" href="9q.html?ch=10">🧩 9Q</a>
+          </div>
+        </div>
+      </div>
+    </details>
+    <details class="ch">
+      <summary>
+        <span class="cnum">11<b>챕터</b></span>
+        <span class="cmeta"><span class="csub">201–212쪽</span></span>
+        <span class="cright"><span class="qbadge">🧩 1</span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
+      </summary>
+      <div class="cbody">
+        <div class="grp">
+          <div class="chipwrap">
+            <a class="wchip" href="p201.html?ch=11">김치 <span class="pg">201</span></a><a class="wchip" href="p202.html?ch=11">비빔밥 <span class="pg">202</span></a><a class="wchip" href="p203.html?ch=11">불고기 <span class="pg">203</span></a><a class="wchip" href="p204.html?ch=11">삼겹살 <span class="pg">204</span></a><a class="wchip" href="p205.html?ch=11">갈비 <span class="pg">205</span></a><a class="wchip" href="p206.html?ch=11">떡볶이 <span class="pg">206</span></a><a class="wchip" href="p207.html?ch=11">잡채 <span class="pg">207</span></a><a class="wchip" href="p208.html?ch=11">떡 <span class="pg">208</span></a><a class="wchip" href="p209.html?ch=11">과일 <span class="pg">209</span></a><a class="wchip" href="p210.html?ch=11">사과 <span class="pg">210</span></a><a class="wchip" href="p211.html?ch=11">포도 <span class="pg">211</span></a><a class="wchip" href="p212.html?ch=11">바나나 <span class="pg">212</span></a><a class="wchip quiz" href="11q.html?ch=11">🧩 11Q</a>
+          </div>
+        </div>
+      </div>
+    </details>
+    <details class="ch">
+      <summary>
+        <span class="cnum">12<b>챕터</b></span>
+        <span class="cmeta"><span class="csub">213–228쪽</span></span>
+        <span class="cright"><span class="qbadge">🧩 1</span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
+      </summary>
+      <div class="cbody">
+        <div class="grp">
+          <div class="chipwrap">
+            <a class="wchip" href="p213.html?ch=12">돈 <span class="pg">213</span></a><a class="wchip" href="p214.html?ch=12">오백원 <span class="pg">214</span></a><a class="wchip" href="p215.html?ch=12">천원 <span class="pg">215</span></a><a class="wchip" href="p216.html?ch=12">이천원 <span class="pg">216</span></a><a class="wchip" href="p217.html?ch=12">오천원 <span class="pg">217</span></a><a class="wchip" href="p218.html?ch=12">만원 <span class="pg">218</span></a><a class="wchip" href="p219.html?ch=12">이만원 <span class="pg">219</span></a><a class="wchip" href="p220.html?ch=12">오만원 <span class="pg">220</span></a><a class="wchip" href="p221.html?ch=12">십만원 <span class="pg">221</span></a><a class="wchip" href="p222.html?ch=12">아이돌 <span class="pg">222</span></a><a class="wchip" href="p223.html?ch=12">남자가수 <span class="pg">223</span></a><a class="wchip" href="p224.html?ch=12">여자가수 <span class="pg">224</span></a><a class="wchip" href="p225.html?ch=12">춤 <span class="pg">225</span></a><a class="wchip" href="p226.html?ch=12">노래 <span class="pg">226</span></a><a class="wchip" href="p227.html?ch=12">춤을 춰요 <span class="pg">227</span></a><a class="wchip" href="p228.html?ch=12">노래를 불러요 <span class="pg">228</span></a><a class="wchip quiz" href="12q.html?ch=12">🧩 12Q</a>
+          </div>
+        </div>
+      </div>
+    </details>
+  </div>
+  <p class="noresult" id="noresult">검색 결과가 없어요.</p>
+  <footer>K-STEP 어휘(인성) · 만든 이의 <span class="heart">♥</span>으로</footer>
+</div>
+<script>
+  var q=document.getElementById('q'), qonly=document.getElementById('qonly'), noresult=document.getElementById('noresult');
+  function apply(){
+    var term=q.value.trim().toLowerCase(), onlyQ=qonly.classList.contains('on');
+    var anyShown=false;
+    document.querySelectorAll('.ch').forEach(function(ch){
+      var chShown=false;
+      ch.querySelectorAll('.grp').forEach(function(grp){
+        var grpShown=false;
+        grp.querySelectorAll('.wchip').forEach(function(chip){
+          var isQuiz=chip.classList.contains('quiz');
+          var text=chip.textContent.toLowerCase();
+          var ok=(!term||text.indexOf(term)>=0)&&(!onlyQ||isQuiz);
+          chip.style.display=ok?'':'none';
+          if(ok){grpShown=true;}
+        });
+        grp.style.display=grpShown?'':'none';
+        if(grpShown)chShown=true;
+      });
+      ch.style.display=chShown?'':'none';
+      if(chShown){anyShown=true; if(term||onlyQ)ch.open=true;}
+    });
+    noresult.style.display=anyShown?'none':'block';
+  }
+  q.addEventListener('input',apply);
+  qonly.addEventListener('click',function(){
+    this.classList.toggle('on');
+    this.setAttribute('aria-pressed',this.classList.contains('on'));
+    apply();
+  });
+</script>
+</body>
+</html>
