@@ -86,11 +86,11 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:50;}
 <script>
 const PAGE = 80;
 const FIRST_PAGE = 1;
-const LAST_PAGE = 300;
+const LAST_PAGE = 456;
 function pageUrl(n){ return n + '.html'; }
 const SITE_BASE = 'https://wjdrych.github.io/vocab/';
 const ANSWER = { word:'열 시', accept:['10 시','10시','10시요','열 시','열 시예요','열 시요','열 시이에요','열시','열시요'] };
-const CH_RANGES = {1:[1,16], 5:[41,50], 8:[71,80], 9:[81,89]};
+const CH_RANGES = {1:[1,16], 5:[41,50], 8:[71,80], 9:[81,89], 48:[453,456]};
 function getChParam(){ const m=location.search.match(/[?&]ch=(\d+)/); return m?parseInt(m[1],10):null; }
 const CH = getChParam();
 const NAME_KEY = 'vocab_name_ch' + (CH || 'x');

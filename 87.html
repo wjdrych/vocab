@@ -86,11 +86,11 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:50;}
 <script>
 const PAGE = 87;
 const FIRST_PAGE = 1;
-const LAST_PAGE = 300;
+const LAST_PAGE = 456;
 function pageUrl(n){ return n + '.html'; }
 const SITE_BASE = 'https://wjdrych.github.io/vocab/';
 const ANSWER = { word:'자정', accept:['자정','자정이에요','자정요','밤 12시','밤 열두 시','밤열두시','밤 12시요'] };
-const CH_RANGES = {1:[1,16], 5:[41,50], 8:[71,80], 9:[81,89]};
+const CH_RANGES = {1:[1,16], 5:[41,50], 8:[71,80], 9:[81,89], 48:[453,456]};
 function getChParam(){ const m=location.search.match(/[?&]ch=(\d+)/); return m?parseInt(m[1],10):null; }
 const CH = getChParam();
 const NAME_KEY = 'vocab_name_ch' + (CH || 'x');
