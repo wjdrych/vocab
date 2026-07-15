@@ -90,7 +90,7 @@ const LAST_PAGE = 456;
 function pageUrl(n){ return n + '.html'; }
 const SITE_BASE = 'https://wjdrych.github.io/vocab/';
 const ANSWER = { word:'명성산', accept:['명성산','명성산이요','명성산요'] };
-const CH_RANGES = {1:[1,16], 4:[31,40], 5:[41,50], 6:[51,60], 7:[61,70], 8:[71,80], 9:[81,89], 10:[90,97], 11:[98,107], 12:[108,117], 13:[118,127], 14:[128,137], 15:[138,146], 16:[147,154], 48:[453,456]};
+const CH_RANGES = {1:[1,10], 2:[11,20], 3:[21,30], 4:[31,40], 5:[41,50], 6:[51,60], 7:[61,70], 8:[71,80], 9:[81,89], 10:[90,97], 11:[98,107], 12:[108,117], 13:[118,127], 14:[128,137], 15:[138,146], 16:[147,154], 48:[453,456]};
 function getChParam(){ const m=location.search.match(/[?&]ch=(\d+)/); return m?parseInt(m[1],10):null; }
 const CH = getChParam();
 const NAME_KEY = 'vocab_name_ch' + (CH || 'x');
@@ -99,7 +99,9 @@ function goToc(){ const c=CH||chapterOfPage(PAGE); location.href='index.html'+(c
 const CH_LO=(CH&&CH_RANGES[CH])?CH_RANGES[CH][0]:FIRST_PAGE;
 const CH_HI=(CH&&CH_RANGES[CH])?CH_RANGES[CH][1]:LAST_PAGE;
 function pageUrlCh(n){ return pageUrl(n)+(CH?('?ch='+CH):''); }
-function goPage(dir){ const t=PAGE+dir; if(t<CH_LO||t>CH_HI) return; location.href=pageUrlCh(t); }
+const CH_QUIZ_MAP={1:"q1",2:"q2",3:"q3",4:"q4",9:"q5",13:"q9",17:"q13",21:"q17",25:"q21",27:"q24",31:"q26",33:"q28",36:"q30",39:"q32",40:"q34",43:"q35",45:"q36",47:"q37"};
+  const CH_QUIZ=(CH&&CH_QUIZ_MAP[CH])?CH_QUIZ_MAP[CH]:null;
+  function goPage(dir){ const t=PAGE+dir; if(t>CH_HI){ if(CH_QUIZ){ location.href=CH_QUIZ+".html"; } return; } if(t<CH_LO) return; location.href=pageUrlCh(t); }
 (function(){ const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
   if(PAGE<=CH_LO) prev.classList.add('disabled'); if(PAGE>=CH_HI) next.classList.add('disabled'); })();
 document.addEventListener('DOMContentLoaded',function(){ var pn=document.getElementById('pageNum'); if(pn) pn.textContent=PAGE+'쪽'; });

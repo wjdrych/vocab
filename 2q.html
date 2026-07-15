@@ -64,7 +64,7 @@ body{margin:0;background:#fdf0f6;font-family:'Noto Sans KR',sans-serif;color:#2b
 @keyframes shakeX{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}50%{transform:translateX(7px)}75%{transform:translateX(-4px)}}
 </style></head><body>
 <div class="sheet">
-  <div class="top"><button class="toc-btn" onclick="location.href='index.html'">☰ 목차 보기</button><span class="who">이름: <b id="nameDisplay">-</b></span></div>
+  <div class="top"><button class="toc-btn" onclick="location.href='index2.html'+(new URLSearchParams(location.search).get('ch')?('?ch='+new URLSearchParams(location.search).get('ch')):'')">☰ 목차 보기</button><span class="who">이름: <b id="nameDisplay">-</b></span></div>
   <div class="hero"><h1>학용품 퀴즈</h1><p class="sub">24~35쪽 복습</p>
     <div class="progress" id="progress"></div>
   </div>
@@ -134,6 +134,7 @@ body{margin:0;background:#fdf0f6;font-family:'Noto Sans KR',sans-serif;color:#2b
     <div class="score" id="scoreText">0 / 5</div>
     <div class="msg" id="resultMsg"></div>
     <button class="retry" onclick="location.reload()">↻ 다시 풀기</button>
+    <button class="retry" id="nextQuizBtn" onclick="location.href='3q.html?ch=2'">다음 퀴즈 →</button>
   </div>
   <canvas class="fc" id="fc"></canvas>
 </div>

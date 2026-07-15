@@ -64,7 +64,7 @@ body{margin:0;background:#fdf0f6;font-family:'Noto Sans KR',sans-serif;color:#2b
 @keyframes shakeX{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}50%{transform:translateX(7px)}75%{transform:translateX(-4px)}}
 </style></head><body>
 <div class="sheet">
-  <div class="top"><button class="toc-btn" onclick="location.href='index.html'">☰ 목차 보기</button><span class="who">이름: <b id="nameDisplay">-</b></span></div>
+  <div class="top"><button class="toc-btn" onclick="location.href='index2.html'+(new URLSearchParams(location.search).get('ch')?('?ch='+new URLSearchParams(location.search).get('ch')):'')">☰ 목차 보기</button><span class="who">이름: <b id="nameDisplay">-</b></span></div>
   <div class="hero"><h1>편의점 퀴즈</h1><p class="sub">36~45쪽 복습</p>
     <div class="progress" id="progress"></div>
   </div>

@@ -86,11 +86,11 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:50;}
 <script>
 const PAGE = 214;
 const FIRST_PAGE = 1;
-const LAST_PAGE = 221;
+const LAST_PAGE = 228;
 function pageUrl(n){ return 'p' + n + '.html'; }
 const SITE_BASE = 'https://wjdrych.github.io/vocab_insung/';
 const ANSWER = { word:'오백원', accept:['오백원','오백 원','500원','오백원이요'] };
-const CH_RANGES = {1:[1,16],2:[17,45],3:[46,54],4:[55,79],5:[80,99],6:[100,121],7:[122,128],8:[129,154],9:[155,176],10:[177,200],11:[201,212],12:[213,221]};
+const CH_RANGES = {1:[1,16],2:[17,45],3:[46,54],4:[55,79],5:[80,99],6:[100,121],7:[122,128],8:[129,154],9:[155,176],10:[177,200],11:[201,212],12:[213,221],13:[222,228]};
 function getChParam(){ const m=location.search.match(/[?&]ch=(\d+)/); return m?parseInt(m[1],10):null; }
 const CH = getChParam();
 const NAME_KEY = 'vocab_insung_name_ch' + (CH || 'x');
@@ -99,7 +99,9 @@ function goToc(){ const c=CH||chapterOfPage(PAGE); location.href='index2.html'+(
 const CH_LO=(CH&&CH_RANGES[CH])?CH_RANGES[CH][0]:FIRST_PAGE;
 const CH_HI=(CH&&CH_RANGES[CH])?CH_RANGES[CH][1]:LAST_PAGE;
 function pageUrlCh(n){ return pageUrl(n)+(CH?('?ch='+CH):''); }
-function goPage(dir){ const t=PAGE+dir; if(t<CH_LO||t>CH_HI) return; location.href=pageUrlCh(t); }
+const CH_QUIZ_MAP={1:'1q',2:'2q',3:'4q',4:'5q',5:'6q',6:'7q',7:'8q',8:null,9:'9q',10:'10q',11:'11q',12:'12q'};
+  const CH_QUIZ=(CH&&CH_QUIZ_MAP[CH])?CH_QUIZ_MAP[CH]:null;
+  function goPage(dir){ const t=PAGE+dir; if(t>CH_HI){ if(CH_QUIZ){ location.href=CH_QUIZ+".html?ch="+CH; } return; } if(t<CH_LO) return; location.href=pageUrlCh(t); }
 (function(){ const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
   if(PAGE<=CH_LO) prev.classList.add('disabled'); if(PAGE>=CH_HI) next.classList.add('disabled'); })();
 document.addEventListener('DOMContentLoaded',function(){ var pn=document.getElementById('pageNum'); if(pn) pn.textContent=PAGE+'쪽'; });
